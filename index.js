@@ -3,7 +3,7 @@ const app = express()
 const cors = require('cors');
 const { ObjectId } = require('mongodb')
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 
 app.use(cors());
@@ -16,14 +16,13 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
         await client.connect()
-        // const firstCollection = client.db("test").collection("devices")
+
         const images = client.db("images").collection("url")
         const product = client.db("product").collection("information")
 
 
         app.get('/data', async (req, res) => {
             const result = await product.find().toArray()
-            // console.log(result);
             res.send(result)
         })
 
@@ -68,7 +67,7 @@ async function run() {
 
 
         app.get('/', (req, res) => {
-            res.send({ hi: "p" })
+            res.send({ message: "Hello Front SnapWrite" })
         })
 
     }
